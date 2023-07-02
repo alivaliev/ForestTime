@@ -8,14 +8,31 @@ namespace ForestWebUI.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<User> _userManager;
-        public AuthController(UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            var findUser = await _userManager.FindByEmailAsync(loginDTO.Email);
+            if (findUser == null)
+            {
+                return RedirectToAction("Login");
+            }
+            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(findUser,loginDTO.Password, false, false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(loginDTO);
         }
         public IActionResult Register()
         {

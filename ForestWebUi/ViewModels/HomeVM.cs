@@ -5,9 +5,9 @@ namespace ForestWebUI.ViewModels
 {
     public class HomeVM
     {
-        public List<Article> HomeArticle { get; set; }
-        public List<Tag> HomeTag { get; set; }
-        public List<Category> HomeCategory { get; set; }
+        public List<Article> HomeArticles { get; set; }
+        public List<Tag> HomeTags { get; set; }
+        public List<Category> HomeCategories { get; set; }
     }
 }
 

@@ -1,10 +1,12 @@
 ﻿using ForestWebUi.Data;
 using ForestWebUi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForestWebUI.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _context;

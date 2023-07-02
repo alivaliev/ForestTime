@@ -1,6 +1,5 @@
 ﻿using ForestWebUi.Data;
 using ForestWebUi.Models;
-using ForestWebUi.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ForestWebUI.ViewModels;
@@ -24,8 +23,8 @@ namespace ForestWebUI.Controllers
             var categories = _context.Categories.ToList();
             HomeVM vm = new()
             {
-                HomeArticle = articles,
-                HomeCategory = categories
+                HomeArticles = articles,
+                HomeCategories = categories
             };
             return View(vm);
         }
