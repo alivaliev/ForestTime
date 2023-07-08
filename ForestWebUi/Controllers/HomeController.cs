@@ -3,6 +3,7 @@ using ForestWebUi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ForestWebUI.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForestWebUI.Controllers
 {
@@ -19,7 +20,7 @@ namespace ForestWebUI.Controllers
 
         public IActionResult Index()
         {
-            var articles = _context.Articles.ToList();
+            var articles = _context.Articles.Include(x=>x.User).ToList();
             var categories = _context.Categories.ToList();
             HomeVM vm = new()
             {

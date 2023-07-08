@@ -26,7 +26,10 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
         public IActionResult Create()
         {
             var tagList = _context.Tags.ToList();
+            var categoryList = _context.Categories.ToList();
             ViewBag.Tags = new SelectList(tagList,"Id","TagName");
+            ViewBag.Categories = new SelectList(categoryList,"Id","CategoryName");
+
             return View();
         }
         [HttpPost]
@@ -34,7 +37,7 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
         {
             try
             {
-                article.UserId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                article.UserId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;              
                 article.SeoUrl = "qwerty";
                 article.CreatedDate = DateTime.Now;
                 article.UpdatedDate = DateTime.Now;

@@ -1,5 +1,5 @@
 ﻿
-
+@model Article
 
 <form method="post">
     <div >
@@ -17,6 +17,10 @@
         </div>
         <div class="form-group">
             <select class="form-control" name="tagIds" asp-items="@ViewBag.Tags" multiple>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.Categories" >
             </select>
         </div>
         <div class="form-group">

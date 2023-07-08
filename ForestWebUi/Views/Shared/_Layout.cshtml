@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@model HomeVM
+
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Basic -->
@@ -109,18 +114,14 @@
                             <li class="nav-item">
                                 <a class="nav-link color-green-hover" href="garden-index.html">Home</a>
                             </li>
+                            @foreach (var item in Model.HomeCategories)
+                            {
                             <li class="nav-item">
-                                <a class="nav-link color-green-hover" href="garden-category.html">Gardening</a>
+                                <a class="nav-link color-green-hover" href="garden-category.html">@item.CategoryName</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-green-hover" href="garden-category.html">Outdoor Living</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-green-hover" href="garden-category.html">Indoor Living</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-green-hover" href="garden-category.html">Shopping Guides</a>
-                            </li>
+                                
+                            }
+                            
                             <li class="nav-item">
                                 <a class="nav-link color-green-hover" href="garden-contact.html">Contact</a>
                             </li>

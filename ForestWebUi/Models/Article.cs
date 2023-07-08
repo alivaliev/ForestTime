@@ -1,4 +1,6 @@
-﻿namespace ForestWebUi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ForestWebUi.Models
 {
     public class Article : BaseEntity
     {
@@ -11,5 +13,6 @@
         public string SeoUrl { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
     }
 }
