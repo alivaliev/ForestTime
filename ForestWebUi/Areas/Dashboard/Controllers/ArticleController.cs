@@ -2,6 +2,7 @@
 using ForestWebUi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace ForestWebUi.Areas.Dashboard.Controllers
@@ -20,15 +21,16 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var articles = _context.Articles.Include(x => x.User).Include(z => z.ArticleTags).ThenInclude(y => y.Tag).Include(s => s.Category).ToList();
+            return View(articles);
         }
         [HttpGet]
         public IActionResult Create()
         {
             var tagList = _context.Tags.ToList();
             var categoryList = _context.Categories.ToList();
-            ViewBag.Tags = new SelectList(tagList,"Id","TagName");
-            ViewBag.Categories = new SelectList(categoryList,"Id","CategoryName");
+            ViewBag.Tags = new SelectList(tagList, "Id", "TagName");
+            ViewBag.Categories = new SelectList(categoryList, "Id", "CategoryName");
 
             return View();
         }
@@ -37,7 +39,7 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
         {
             try
             {
-                article.UserId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;              
+                article.UserId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 article.SeoUrl = "qwerty";
                 article.CreatedDate = DateTime.Now;
                 article.UpdatedDate = DateTime.Now;
@@ -50,7 +52,7 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
                         TagId = tagIds[i],
                         ArticleId = article.Id
                     };
-                   await _context.ArticlesTags.AddAsync(articleTag);
+                    await _context.ArticlesTags.AddAsync(articleTag);
                 }
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -61,7 +63,47 @@ namespace ForestWebUi.Areas.Dashboard.Controllers
 
                 return View(article);
             }
-            
+
+        }
+        public IActionResult Edit(int id)
+        {
+            var article = _context.Articles.Include(x => x.ArticleTags).SingleOrDefault(a => a.Id == id);
+
+            if (article == null || id == null)
+            {
+                return NotFound();
+            }
+            var tags = _context.Tags.ToList();
+            ViewData["tagList"] = tags;
+            var categories = _context.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "CategoryName");
+
+            return View(article);
+        }
+        [HttpPost]
+        public IActionResult Edit(Article article, List<int> tagIds)
+        {
+            article.UpdatedDate = DateTime.Now;
+            article.UserId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            article.SeoUrl = "asas";
+            _context.Articles.Update(article);
+            _context.SaveChanges();
+            var articleTag = _context.ArticlesTags.Where(a => a.ArticleId == article.Id).ToList();
+            _context.ArticlesTags.RemoveRange(articleTag);
+            List<ArticleTag> tagList = new();
+            for (int i = 0; i < tagIds.Count; i++)
+            {
+                ArticleTag aTag = new()
+                {
+                    TagId = tagIds[i],
+                    ArticleId = article.Id
+                };
+                tagList.Add(aTag);
+            }
+            _context.ArticlesTags.AddRange(tagList);
+            _context.Articles.Update(article);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -13,6 +13,7 @@ namespace ForestWebUi.Models
         public string SeoUrl { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public List<ArticleTag> ArticleTags { get; set; }
 
     }
 }
