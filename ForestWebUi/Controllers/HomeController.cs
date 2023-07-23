@@ -23,6 +23,8 @@ namespace ForestWebUI.Controllers
             var articles = _context.Articles.Include(x=>x.User).ToList();
             var categories = _context.Categories.ToList();
             var recentArticles = _context.Articles.OrderByDescending(x => x.CreatedDate).Take(3).ToList();
+            var featuredArticles = _context.Articles.OrderByDescending(x => x.Views).Take(3).ToList();
+            var articlePhotos = _context.Articles.OrderBy(x => Guid.NewGuid()).Take(6).ToList();
             
             
 
@@ -31,6 +33,8 @@ namespace ForestWebUI.Controllers
                 HomeArticles = articles,
                 HomeCategories = categories,
                 RecentArticles = recentArticles,
+                FeaturedtArticles = featuredArticles,
+                ArticlePhotos = articlePhotos,
             };
             return View(vm);
         }

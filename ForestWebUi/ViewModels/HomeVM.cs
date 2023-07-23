@@ -8,6 +8,9 @@ namespace ForestWebUi.ViewModels
         public List<Tag> HomeTags { get; set; }
         public List<Category> HomeCategories { get; set; }
         public List<Article> RecentArticles { get; set; }
+        public List<Article> FeaturedtArticles { get; set; }
+        public List<Article> ArticlePhotos { get; set; }
+
         
     }
 }

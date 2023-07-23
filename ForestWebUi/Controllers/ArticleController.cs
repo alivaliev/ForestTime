@@ -48,8 +48,7 @@ namespace ForestWebUi.Controllers
                 var article = _context.Articles.Include(x => x.User).Include(a => a.Category).Include(y => y.ArticleTags).ThenInclude(z => z.Tag).SingleOrDefault(x => x.Id == id);
                 var categories = _context.Categories.Include(x => x.Articles).ToList();
                 var recentArticles = _context.Articles.OrderByDescending(x => x.CreatedDate).Take(3).ToList();
-                var random = new Random();
-                var randomArticles = _context.Articles.OrderByDescending(x => random).Take(2).ToList();
+                var randomArticles = _context.Articles.OrderByDescending(x => Guid.NewGuid()).Take(2).ToList();
 
                 if (article == null)
                 {
