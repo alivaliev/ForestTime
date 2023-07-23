@@ -4,6 +4,6 @@
     {
         public string CategoryName { get; set; }
 
-
+        public List<Article> Articles { get; set; }
     }
 }

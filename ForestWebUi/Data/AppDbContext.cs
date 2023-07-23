@@ -16,6 +16,7 @@ namespace ForestWebUi.Data
         public DbSet<ArticleTag> ArticlesTags { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

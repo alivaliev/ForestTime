@@ -1,7 +1,6 @@
-﻿using Azure;
-using ForestWebUi.Models;
+﻿using ForestWebUi.Models;
 
-namespace ForestWebUI.ViewModels
+namespace ForestWebUi.ViewModels
 {
     public class HomeVM
     {
