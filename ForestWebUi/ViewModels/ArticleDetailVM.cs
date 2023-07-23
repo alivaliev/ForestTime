@@ -8,6 +8,8 @@ namespace ForestWebUi.ViewModels
         public List<Category> CategoryCount { get; set; }
         public List<Article> RecentArticles { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<Article> RandomArticles { get; set; }
+
 
     }
 }

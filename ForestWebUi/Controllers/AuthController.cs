@@ -9,12 +9,13 @@ namespace ForestWebUI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IHttpContextAccessor _httpContext;
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IHttpContextAccessor httpContext)
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IHttpContextAccessor contextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _httpContext = httpContext;
+            _contextAccessor = contextAccessor;
         }
 
         public IActionResult Login()
@@ -32,13 +33,13 @@ namespace ForestWebUI.Controllers
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(findUser,loginDTO.Password, false, false);
             if (result.Succeeded)
             {
-                string c = _httpContext.HttpContext.Request.Query["controller"].ToString();
-                string a = _httpContext.HttpContext.Request.Query["action"].ToString();
-                string i = _httpContext.HttpContext.Request.Query["id"].ToString();
+                string c = _contextAccessor.HttpContext.Request.Query["controller"];
+                string a = _contextAccessor.HttpContext.Request.Query["action"];
+                string i = _contextAccessor.HttpContext.Request.Query["id"];
                 if (!string.IsNullOrWhiteSpace(c))
                 {
-                    return RedirectToAction(a, c, new { id = i });
-                }
+                    return RedirectToAction(a, c, new { Id = i });
+                }                
                 return RedirectToAction("Index", "Home");
             }
             return View(loginDTO);

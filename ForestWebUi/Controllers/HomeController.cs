@@ -22,10 +22,15 @@ namespace ForestWebUI.Controllers
         {
             var articles = _context.Articles.Include(x=>x.User).ToList();
             var categories = _context.Categories.ToList();
+            var recentArticles = _context.Articles.OrderByDescending(x => x.CreatedDate).Take(3).ToList();
+            
+            
+
             HomeVM vm = new()
             {
                 HomeArticles = articles,
-                HomeCategories = categories
+                HomeCategories = categories,
+                RecentArticles = recentArticles,
             };
             return View(vm);
         }
