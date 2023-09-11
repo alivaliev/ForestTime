@@ -48,7 +48,8 @@ namespace ForestWebUi.Controllers
                 var article = _context.Articles.Include(x => x.User).Include(a => a.Category).Include(y => y.ArticleTags).ThenInclude(z => z.Tag).SingleOrDefault(x => x.Id == id);
                 var categories = _context.Categories.Include(x => x.Articles).ToList();
                 var recentArticles = _context.Articles.OrderByDescending(x => x.CreatedDate).Take(3).ToList();
-                var randomArticles = _context.Articles.OrderByDescending(x => Guid.NewGuid()).Take(2).ToList();
+                var similar = _context.Articles.Where(x => x.ArticleTags.Select(s => s.TagId).Contains(article.ArticleTags[0].TagId) && x.Id != id).ToList();
+
 
                 if (article == null)
                 {
@@ -61,7 +62,7 @@ namespace ForestWebUi.Controllers
                     CategoryCount = categories,
                     RecentArticles = recentArticles,
                     Comments = articleComments,
-                    RandomArticles = randomArticles,
+                    SimilarArticles = similar,
 
 
                 };
